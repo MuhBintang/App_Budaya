@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:uas_budaya/home_page/budaya_screen.dart';
+import 'package:uas_budaya/budaya/budaya_screen.dart';
+import 'package:uas_budaya/favorite/list_favorite_screen.dart';
 import 'package:uas_budaya/home_page/home_screen.dart';
 import 'package:uas_budaya/login_reg_page/splash_screen.dart';
+import 'package:uas_budaya/profile/profile_screen.dart';
+import 'package:uas_budaya/tiket/list_tiket.dart';
 
 void main() {
   runApp(const MyApp());
@@ -54,9 +57,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final screen = [
     const HomeScreen(),
-    const BudayaScreen(),
-    // const FavoriteScreen(),
-    // const ProfilScreen(),
+    const ListBudaya(),
+    const ListTiket(),
+    const FavoriteScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -81,12 +85,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
           });
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.architecture_outlined), label: "My Ticket"),
+              icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.card_membership_outlined), label: "My Favorite"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+              icon: Icon(Icons.architecture_outlined), label: "Budaya"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.card_membership_outlined), label: "List Tiket"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border_outlined), label: "Favourite"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person), label: "Profile"),
         ],
         backgroundColor:
             Colors.white, // Warna latar belakang BottomNavigationBar

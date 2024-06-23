@@ -44,8 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
             data.value ?? 0,
             data.id ?? "",
             data.username ?? "",
-            data.address ?? "",
             data.email ?? "",
+            data.address ?? "",
           );
 
           isLoading = false;

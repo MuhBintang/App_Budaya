@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:uas_budaya/login_reg_page/on_boarding.dart';
 import 'package:uas_budaya/login_reg_page/register_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
       () {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => RegisterScreen(),
+            builder: (context) => OnBoardingScreen(),
           ),
         );
       },
