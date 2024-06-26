@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uas_budaya/const.dart';
+import 'package:uas_budaya/favorite/list_favorite_screen.dart';
 import 'package:uas_budaya/main.dart';
 import 'package:uas_budaya/models/model_listtiket.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:uas_budaya/tiket/detail_tiket.dart';
-
-import 'history.dart';
+import 'package:uas_budaya/tiket/history.dart';
+import 'package:uas_budaya/tiket/list_favorite_screen.dart';
 
 class ListTiket extends StatefulWidget {
   const ListTiket({super.key});
@@ -23,6 +26,7 @@ class _ListTiketState extends State<ListTiket> {
   bool isLoading = true;
   String? id;
   Set<String> favoriteTicketsIds = {};
+  bool isFavorite = false;
 
   Future<void> getSession() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -48,13 +52,49 @@ class _ListTiketState extends State<ListTiket> {
     }
   }
 
+  Future<void> addFavorite(String ticketId) async {
+    try {
+      await http.post(Uri.parse('$url/add_favorite.php'), body: {'id_ticket': ticketId, 'id_user': id});
+      setState(() {
+        favoriteTicketsIds.add(ticketId);
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
+
+  Future<void> deleteFavorite(String ticketId) async {
+    try {
+      print('Deleting ticket with id: $ticketId'); // Log the ticket id
+      final response = await http.post(
+        Uri.parse('$url/deletefavorite.php'),
+        body: {'id_ticket': ticketId}, // Update key to match PHP
+      );
+
+      final responseBody = response.body;
+      print('Delete Favorite Response: $responseBody');
+
+      final responseData = json.decode(responseBody);
+      if (responseData['status'] == 'success') {
+        setState(() {
+          favoriteTicketsIds.remove(ticketId);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseData['message'])));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseData['message'])));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     getSession();
     _futureTickets = getTicket();
   }
-
+  
   void filterTickets(String query) {
     final filtered = tickets?.where((ticket) {
       final nameLower = ticket.ticketName.toLowerCase();
@@ -73,16 +113,6 @@ class _ListTiketState extends State<ListTiket> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFF4B5A4),
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     Navigator.of(context).pushReplacement(
-        //       MaterialPageRoute(
-        //         builder: (context) => BottomNavBar(initialIndex: 3),
-        //       ),
-        //     );
-        //   },
-        // ),
         title: Text(
           'All Tickets',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
@@ -90,7 +120,7 @@ class _ListTiketState extends State<ListTiket> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.favorite),
+            icon: Icon(Icons.history),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -132,7 +162,6 @@ class _ListTiketState extends State<ListTiket> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Text "Mulai Belajar"
                         Text(
                           'Explore \nBudaya',
                           style: TextStyle(
@@ -141,13 +170,11 @@ class _ListTiketState extends State<ListTiket> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        // Spacer untuk memberikan jarak antara teks dan gambar
                         SizedBox(width: 10),
-                        // Gambar
                         Image.asset(
-                          'images/g1.png', // Sesuaikan dengan path gambar Anda
-                          width: 160, // Sesuaikan lebar gambar
-                          height: 140, // Sesuaikan tinggi gambar
+                          'images/g1.png',
+                          width: 160,
+                          height: 140,
                         ),
                       ],
                     ),
@@ -163,12 +190,11 @@ class _ListTiketState extends State<ListTiket> {
                           border: InputBorder.none,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none, // Menghilangkan border
+                            borderSide: BorderSide.none,
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide
-                                .none, // Menghilangkan border saat fokus
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ),
@@ -262,8 +288,7 @@ class _ListTiketState extends State<ListTiket> {
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500),
-                                        overflow: TextOverflow
-                                            .ellipsis, // Add ellipsis to handle overflow
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                   ],
@@ -276,7 +301,7 @@ class _ListTiketState extends State<ListTiket> {
                                       color: Color(0xFFF4B5A4),
                                     ),
                                     Text(
-                                      data.ticketPrice,
+                                      "Rp. ${data.ticketPrice}",
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
@@ -290,8 +315,21 @@ class _ListTiketState extends State<ListTiket> {
                                   children: [
                                     Spacer(),
                                     IconButton(
-                                      icon: Icon(Icons.favorite_border),
-                                      onPressed: () {},
+                                      icon: Icon(
+                                        favoriteTicketsIds.contains(data.id)
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: favoriteTicketsIds.contains(data.id)
+                                            ? Colors.red
+                                            : null,
+                                      ),
+                                      onPressed: () {
+                                        if (favoriteTicketsIds.contains(data.id)) {
+                                          deleteFavorite(data.id);
+                                        } else {
+                                          addFavorite(data.id);
+                                        }
+                                      },
                                     ),
                                   ],
                                 ),

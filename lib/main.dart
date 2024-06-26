@@ -4,6 +4,7 @@ import 'package:uas_budaya/favorite/list_favorite_screen.dart';
 import 'package:uas_budaya/home_page/home_screen.dart';
 import 'package:uas_budaya/login_reg_page/splash_screen.dart';
 import 'package:uas_budaya/profile/profile_screen.dart';
+import 'package:uas_budaya/tiket/list_favorite_screen.dart';
 import 'package:uas_budaya/tiket/list_tiket.dart';
 
 void main() {
@@ -59,7 +60,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const HomeScreen(),
     const ListBudaya(),
     const ListTiket(),
-    const FavoriteScreen(),
     const ProfileScreen(),
   ];
 
@@ -91,8 +91,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
               icon: Icon(Icons.architecture_outlined), label: "Budaya"),
           BottomNavigationBarItem(
               icon: Icon(Icons.card_membership_outlined), label: "List Tiket"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border_outlined), label: "Favourite"),
           BottomNavigationBarItem(
               icon: Icon(Icons.person), label: "Profile"),
         ],

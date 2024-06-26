@@ -95,7 +95,7 @@ class _PageSettingState extends State<PageSetting> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditProfileScreen(),
+                    builder: (context) => PageEditProfile(),
                   ),
                 );
               },

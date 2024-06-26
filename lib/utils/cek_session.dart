@@ -1,60 +1,55 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
+  int? value;
+  String? idUser, userName, email, address;
+
   Future<void> saveSession(
       int val, String id, String userName, String email, String address) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setInt("value", val);
-    await pref.setString("id", id);
-    await pref.setString("username", userName);
-    await pref.setString("email", email);
-    await pref.setString("address", address);
+    pref.setInt("value", val);
+    pref.setString("id", id);
+    pref.setString("username", userName);
+    pref.setString("email", email);
+    pref.setString("address", address);
   }
 
-  Future<Map<String, dynamic>> getSession() async {
+  Future getSession() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    int? value = pref.getInt("value");
-    String? id = pref.getString("id");
-    String? username = pref.getString("username");
-    String? email = pref.getString("email");
-    String? address = pref.getString("address");
-
-    return {
-      "value": value,
-      "id": id,
-      "username": username,
-      "email": email,
-      "address": address,
-    };
+    pref.getInt("value");
+    pref.getString("id");
+    pref.getString("username");
+    pref.getString("email");
+    pref.getString("address");
+    return value;
   }
 
-  Future<String?> getSesiIdUser() async {
+  Future getSesiIdUser() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String? idUser = pref.getString("id");
+    pref.getString("id");
     return idUser;
   }
 
   Future<void> updateUsername(String newUsername) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString("username", newUsername);
+    pref.setString("username", newUsername);
   }
 
   Future<void> updateEmail(String newEmail) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString("email", newEmail);
+    pref.setString("email", newEmail);
   }
 
   Future<void> updateAddress(String newAddress) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString("address", newAddress);
+    pref.setString("address", newAddress);
   }
 
-  // Clear session (logout)
-  Future<void> clearSession() async {
+  //clear session --> logout
+  Future clearSession() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.clear();
+    pref.clear();
   }
 }
 
-// Instance of SessionManager to use throughout the application
 SessionManager session = SessionManager();

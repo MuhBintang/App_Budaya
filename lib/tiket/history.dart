@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uas_budaya/const.dart';
 import 'package:uas_budaya/models/model_history.dart';
+import 'package:uas_budaya/tiket/qr_code.dart';
 
 class PageHistory extends StatefulWidget {
   const PageHistory({super.key});
@@ -112,7 +113,8 @@ class _PageHistoryState extends State<PageHistory> {
                         title: Row(
                           children: [
                             Expanded(
-                                child: Text('Order ID: ${history.orderId}')),
+                              child: Text('Order ID: ${history.orderId}'),
+                            ),
                             ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
@@ -133,6 +135,18 @@ class _PageHistoryState extends State<PageHistory> {
                           children: [
                             Text('Waktu: ${formatDate(history.createdAt)}'),
                             Text(history.customerAddress),
+                            if (history.status.toLowerCase() == 'success')
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            QRView(orderId: history.orderId)),
+                                  );
+                                },
+                                child: Text('Generate Code'),
+                              ),
                           ],
                         ),
                       ),
