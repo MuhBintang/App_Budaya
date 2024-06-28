@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uas_budaya/budaya/budaya_screen.dart';
-import 'package:uas_budaya/favorite/list_favorite_screen.dart';
 import 'package:uas_budaya/home_page/home_screen.dart';
 import 'package:uas_budaya/login_reg_page/splash_screen.dart';
 import 'package:uas_budaya/profile/profile_screen.dart';

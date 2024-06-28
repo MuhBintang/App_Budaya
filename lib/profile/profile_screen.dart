@@ -144,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      'ID: $id',
+                      '$email',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey,

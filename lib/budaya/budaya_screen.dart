@@ -123,7 +123,7 @@ class _ListBudayaState extends State<ListBudaya> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide:
-                            BorderSide.none, // Menghilangkan border saat fokus
+                            BorderSide(color: Colors.black), // Menghilangkan border saat fokus
                       ),
                     ),
                   ),

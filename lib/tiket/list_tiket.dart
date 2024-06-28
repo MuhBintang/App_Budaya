@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uas_budaya/const.dart';
-import 'package:uas_budaya/favorite/list_favorite_screen.dart';
 import 'package:uas_budaya/main.dart';
 import 'package:uas_budaya/models/model_listtiket.dart';
 import 'package:http/http.dart' as http;
@@ -156,7 +155,8 @@ class _ListTiketState extends State<ListTiket> {
                   right: 20,
                   left: 20,
                 ),
-                child: Column(
+                child: 
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
@@ -194,7 +194,7 @@ class _ListTiketState extends State<ListTiket> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+                            borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
                       ),
