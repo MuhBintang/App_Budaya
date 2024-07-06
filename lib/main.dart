@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:uas_budaya/budaya/budaya_screen.dart';
 import 'package:uas_budaya/home_page/home_screen.dart';
 import 'package:uas_budaya/login_reg_page/splash_screen.dart';
 import 'package:uas_budaya/profile/profile_screen.dart';
 import 'package:uas_budaya/tiket/list_favorite_screen.dart';
 import 'package:uas_budaya/tiket/list_tiket.dart';
+import 'package:uas_budaya/tiket/notification.dart';
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

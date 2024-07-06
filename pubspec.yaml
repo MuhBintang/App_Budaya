@@ -49,6 +49,8 @@ dependencies:
   midtrans_snap: ^1.0.0
   qr_flutter: ^4.1.0
   flutter_rating_bar: ^4.0.1
+  flutter_local_notifications: ^17.2.0
+  
 
 dev_dependencies:
   flutter_test:

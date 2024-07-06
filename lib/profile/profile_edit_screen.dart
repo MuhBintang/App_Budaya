@@ -81,7 +81,9 @@ class _PageEditProfileState extends State<PageEditProfile> {
         ));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => BottomNavBar()), // Navigate to BottomNavBar
+          MaterialPageRoute(
+            builder: (context) => BottomNavBar(initialIndex: 3), // Navigate to BottomNavBar with ProfileScreen
+          ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

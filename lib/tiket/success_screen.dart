@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uas_budaya/const.dart';
 import 'package:uas_budaya/main.dart';
 import 'package:uas_budaya/models/model_add.dart';
+import 'package:uas_budaya/tiket/notification.dart';
 
 class SuccessPage extends StatefulWidget {
   final int? orderId;
@@ -97,6 +99,7 @@ class _SuccessPageState extends State<SuccessPage> {
     getSession();
     // update();
     super.initState();
+    Noti.initialize(flutterLocalNotificationsPlugin);
   }
 
   @override
@@ -109,6 +112,7 @@ class _SuccessPageState extends State<SuccessPage> {
           children: [
             ElevatedButton(
                 onPressed: () async {
+                  Noti.showBigTextNotification(title: "App Budaya", body: "Terimakasih Telah Membeli Tiket!!!", fln: flutterLocalNotificationsPlugin);
                   update();
                 },
                 child: Text('Back to Home')),
